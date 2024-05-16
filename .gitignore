@@ -38,3 +38,11 @@
 *.ipch
 
 
+*.tlog
+*.log
+*.ilk
+*.idb
+*.pdb
+*.recipe
+/Study_DirectX_Engine2024/.vs
+/Study_DirectX_Engine2024/.vs/Study_DirectX_Engine2024/v17
