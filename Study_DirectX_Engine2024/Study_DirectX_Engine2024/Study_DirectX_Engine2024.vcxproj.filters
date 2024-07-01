@@ -13,10 +13,51 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="App">
+      <UniqueIdentifier>{0c98f624-1a63-4a81-90e7-6ed3cc5ce7ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="App\System">
+      <UniqueIdentifier>{9cea7f1d-1a51-466d-9fb9-b612058ecdc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="App\Scene">
+      <UniqueIdentifier>{350cf3fb-d670-4c95-aa1a-eeab921f3d5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="App\GameObject">
+      <UniqueIdentifier>{1f9bb56d-0f29-4377-8825-7fc3bca7927d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="App\Camera">
+      <UniqueIdentifier>{68d87a17-d497-4547-be86-e8df79a5da5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="App\Manager">
+      <UniqueIdentifier>{4784bace-b3be-46ee-9890-87e0a338eec2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PixelShader">
+      <UniqueIdentifier>{31fd85f7-455e-4ac0-92ee-79cc15d47b01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="VertexShader">
+      <UniqueIdentifier>{36379c22-6dcb-43e3-8d18-f908a39f9d52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="App\Time">
+      <UniqueIdentifier>{a1055c1c-b106-4b98-9b59-90711cea3aad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Application.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Time.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Application.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
