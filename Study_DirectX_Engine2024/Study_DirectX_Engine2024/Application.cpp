@@ -1,5 +1,5 @@
 #include "Application.h"
-
+#include "DirectX.h"
 
 using namespace Mylib;
 
@@ -73,5 +73,19 @@ Mylib::Application::Application(int _width, int _height)
 }
 
 void Mylib::Application::Loop()
+{
+	// タイムの初期化
+
+	// DirectXの初期化
+	DirectX::GetInstance().InitDirectX(m_hWnd, m_ScreenHeight, m_ScreenWidth);
+	// ループ処理
+	for (;;)
+	{
+
+	}
+
+}
+
+void Mylib::Application::Terminaion()
 {
 }

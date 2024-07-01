@@ -27,7 +27,7 @@ namespace Mylib
 		// アプリケーション実行(ループ)処理
 		void Loop();
 		// アプリケーション終了処理
-		void dis();
+		void Terminaion();
 
 		// 値取得、値設置
 		static HWND GethWnd()	{ return m_hWnd; }			// ウィンドウハンドルを返す
@@ -46,7 +46,7 @@ namespace Mylib
 		static HINSTANCE	m_hInstance;	// インスタンスハンドル
 		static int			m_ScreenWidth;	// 画面横サイズ
 		static int			m_ScreenHeight;	// 画面縦サイズ
-		static Time				m_time;			// タイムクラス変数
+		static Time			m_time;			// タイムクラス変数
 
 
 	};
