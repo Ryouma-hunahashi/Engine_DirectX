@@ -29,6 +29,8 @@ namespace Mylib
 		// アプリケーション終了処理
 		void Terminaion();
 
+		static LRESULT CALLBACK WndProc(HWND _hWnd, UINT _message, WPARAM _wParam, LPARAM _lParam);
+
 		// 値取得、値設置
 		static HWND GethWnd()	{ return m_hWnd; }			// ウィンドウハンドルを返す
 		static int  GetWidth()	{ return m_ScreenWidth; }	// 画面の横サイズを返す

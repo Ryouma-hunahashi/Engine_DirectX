@@ -8,7 +8,7 @@
 #pragma comment (lib,"d3d11.lib")
 #pragma endregion
 
-#define SAFE_RELEASE(p) do{if(p){p->Release(); p = nullptr;}}
+#define SAFE_RELEASE(p) {if(p){p->Release(); p = nullptr;}}
 
 enum BlendMode
 {
@@ -36,11 +36,15 @@ enum DepthState
 	DEPTH_MAX
 };
 
-class DirectX
+class DirectXManager
 {
 public:
 	// DirectX初期化処理
-	HRESULT InitDirectX(HWND _hWnd, int _height, int _width);
+	HRESULT InitDirectX(HWND _hWnd, int _height, int _width,bool _fullscreen);
+	// Update処理
+	void Update();
+	// Draw処理
+	void Draw();
 
 	// 終了処理
 	void UninitDirectX();
@@ -59,7 +63,7 @@ public:
 	ID3D11Device* GetDevice()			{ return m_pDevice; }
 	ID3D11DeviceContext* GetContext()	{ return m_pContext; }
 	IDXGISwapChain* GetSwapChain()		{ return m_pSwapChain; }
-	static DirectX& GetInstance()		{ return m_Instance; }
+	static DirectXManager& GetInstance()		{ return m_Instance; }
 #pragma endregion
 
 private:
@@ -73,10 +77,10 @@ private:
 	ID3D11DepthStencilState*	m_pDepthStencilState[DepthState::DEPTH_MAX];	// ステンシル
 
 	// 自身の変数を持たせておく
-	static DirectX m_Instance;
+	static DirectXManager m_Instance;
 
 private :
-	DirectX(){}
-	~DirectX(){}
+	DirectXManager(){}
+	~DirectXManager(){}
 };
 

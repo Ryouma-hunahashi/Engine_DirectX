@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "DirectX.h"
+#include "Time.h"
 
 using namespace Mylib;
 
@@ -8,6 +9,7 @@ HWND		Application::m_hWnd;
 WNDCLASSEX	Application::m_wc;
 int			Application::m_ScreenWidth;
 int			Application::m_ScreenHeight;
+
 
 Mylib::Application::Application(int _width, int _height)
 {
@@ -21,7 +23,7 @@ Mylib::Application::Application(int _width, int _height)
 	m_wc.hInstance = m_hInstance;						// インスタンスハンドル
 	m_wc.lpszClassName = "ClassName";					// Windowクラスの名前
 	m_wc.lpszMenuName = "";								// メニューの名前
-	m_wc.lpfnWndProc = DefWindowProc;					// WndProcのアドレス ※後で関数を作成し、変更する
+	m_wc.lpfnWndProc = WndProc;							// WndProcのアドレス ※後で関数を作成し、変更する
 	m_wc.cbClsExtra = 0;								// 基本0固定
 	m_wc.cbWndExtra = 0;								// 基本0固定
 	m_wc.hCursor = LoadCursor(NULL,IDC_ARROW);			// マウスカーソル
@@ -74,18 +76,64 @@ Mylib::Application::Application(int _width, int _height)
 
 void Mylib::Application::Loop()
 {
+	HRESULT hr;
 	// タイムの初期化
+	Time time;
+	//--- FPS制御
+	timeBeginPeriod(1);
+	DWORD countStartTime = timeGetTime();
+	DWORD preExecTime = countStartTime;
 
 	// DirectXの初期化
-	DirectX::GetInstance().InitDirectX(m_hWnd, m_ScreenHeight, m_ScreenWidth);
+	hr = DirectXManager::GetInstance().InitDirectX(m_hWnd, m_ScreenHeight, m_ScreenWidth,false);
+	if (FAILED(hr)) { return; }
+
+	MSG message{};
+
 	// ループ処理
 	for (;;)
 	{
+		if (PeekMessage(&message, NULL, 0, 0, PM_NOREMOVE))
+		{
+			if (!GetMessage(&message, NULL, 0, 0))
+			{
+				break;
+			}
+			else
+			{
+				TranslateMessage(&message);
+				DispatchMessage(&message);
+			}
+		}
+		else
+		{
+			time.Update();
 
+			float deltaTime = time.GetDeltaTime();
+
+			if (deltaTime >= 1.0f / 60.0f)
+			{
+				//Update(diff * 0.001f);
+				//Draw();
+				
+				time.Reset();
+			}
+		}
 	}
 
 }
 
 void Mylib::Application::Terminaion()
 {
+}
+
+LRESULT CALLBACK Mylib::Application::WndProc(HWND _hWnd, UINT _message, WPARAM _wParam, LPARAM _lParam)
+{
+	switch (_message)
+	{
+	case WM_DESTROY:
+		PostQuitMessage(0);
+		break;
+	}
+	return DefWindowProc(_hWnd, _message, _wParam, _lParam);
 }

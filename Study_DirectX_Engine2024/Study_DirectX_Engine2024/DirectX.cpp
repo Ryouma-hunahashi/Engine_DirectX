@@ -1,6 +1,11 @@
 #include "DirectX.h"
 
-HRESULT DirectX::InitDirectX(HWND _hWnd, int _height, int _width)
+namespace Mylib
+{
+}
+DirectXManager DirectXManager::m_Instance;
+
+HRESULT DirectXManager::InitDirectX(HWND _hWnd, int _height, int _width , bool _fullscreen)
 {
 	HRESULT	hr = E_FAIL;
 	DXGI_SWAP_CHAIN_DESC sd;
@@ -13,8 +18,8 @@ HRESULT DirectX::InitDirectX(HWND _hWnd, int _height, int _width)
 	sd.BufferDesc.RefreshRate.Denominator = 1;
 	sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;	// バックバッファの使用方法
 	sd.BufferCount = 1;									// バックバッファの数
-	sd.OutputWindow = _hWnd;								// 関連付けるウインドウ
-	//sd.Windowed = fullscreen ? FALSE : TRUE;
+	sd.OutputWindow = _hWnd;							// 関連付けるウインドウ
+	sd.Windowed = _fullscreen ? FALSE : TRUE;			// フルスクリーンかどうか
 	sd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 
 	// ドライバの種類
@@ -164,30 +169,53 @@ HRESULT DirectX::InitDirectX(HWND _hWnd, int _height, int _width)
 	return S_OK;
 }
 
-void DirectX::UninitDirectX()
+void DirectXManager::Update()
 {
 }
 
-void DirectX::SwapDirectX()
+void DirectXManager::Draw()
 {
+}
+
+void DirectXManager::UninitDirectX()
+{
+	for (int i = 0; i < SAMPLER_MAX; ++i)
+		m_pSamplerState[i]->Release();
+	for (int i = 0; i < BLEND_MAX; ++i)
+		m_pBlendState[i]->Release();
+	for (int i = 0; i < 3; ++i)
+		m_pRasterizerState[i]->Release();
+
+	m_pContext->ClearState();
+	SAFE_RELEASE(m_pContext);
+
+	m_pSwapChain->SetFullscreenState(false, NULL);
+	SAFE_RELEASE(m_pSwapChain);
+
+	SAFE_RELEASE(m_pDevice);
+}
+
+void DirectXManager::SwapDirectX()
+{
+	m_pSwapChain->Present(0, 0);
 }
 
 //void DirectX::SetRenderTargets(UINT num, RenderTarget** ppViews, DepthStencil* pView)
 //{
 //}
 
-void DirectX::SetCullingMode(D3D11_CULL_MODE cull)
+void DirectXManager::SetCullingMode(D3D11_CULL_MODE cull)
 {
 }
 
-void DirectX::SetDepthTest(DepthState state)
+void DirectXManager::SetDepthTest(DepthState state)
 {
 }
 
-void DirectX::SetBlendMode(BlendMode blend)
+void DirectXManager::SetBlendMode(BlendMode blend)
 {
 }
 
-void DirectX::SetSamplerState(SamplerState state)
+void DirectXManager::SetSamplerState(SamplerState state)
 {
 }
