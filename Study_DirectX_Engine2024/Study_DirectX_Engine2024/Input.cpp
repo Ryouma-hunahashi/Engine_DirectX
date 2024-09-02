@@ -4,7 +4,7 @@
 #include <d3d11.h>
 #include "DirectX.h"
 
-using namespace Mylib;
+using namespace Applib;
 
 bool Input::Initialize(HWND _hWnd, HINSTANCE _hInstance)
 {
@@ -225,7 +225,7 @@ DirectX::XMFLOAT3 Input::GetMousePos()
     // マウスカーソルの位置を取得する
     GetCursorPos(&p);
     // スクリーン上の座標に変換する
-    ScreenToClient(Mylib::Application::GethWnd(), &p);
+    ScreenToClient(Applib::Application::GethWnd(), &p);
 
     // スクリーン座標をビューボート座標に変換する
     D3D11_VIEWPORT viewport;
@@ -240,7 +240,7 @@ DirectX::XMFLOAT3 Input::GetMousePos()
     DirectX::XMFLOAT3 screenPos(screenX, screenY, 1.0f); // Z=1.0f（遠い平面）
 
     // 逆ビュー・プロジェクション行列を計算
-    DirectX::XMMATRIX invViewProj;
+    DirectX::XMMATRIX invViewProj = DirectX::XMMatrixIdentity();
     //invViewProj = DirectX::XMMatrixInverse(nullptr, viewMatrix * projectionMatrix);
 
     // クリッピング空間の座標を4次元ベクトルに変換

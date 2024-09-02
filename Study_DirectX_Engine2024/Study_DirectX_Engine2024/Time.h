@@ -12,7 +12,7 @@
 #pragma comment(lib, "winmm.lib")
 #include <chrono>
 
-namespace Mylib
+namespace Timelib
 {
 	class Time
 	{

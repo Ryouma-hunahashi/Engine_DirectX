@@ -64,17 +64,21 @@ public:
 	ID3D11DeviceContext* GetContext()	{ return m_pContext; }
 	IDXGISwapChain* GetSwapChain()		{ return m_pSwapChain; }
 	static DirectXManager& GetInstance()		{ return m_Instance; }
+	ID3D11RenderTargetView* GetTargetView() { return m_pRenderTargetView; }
+	ID3D11DepthStencilView* GetStencilView() { return m_pDepthStencilView; }
 #pragma endregion
 
 private:
 	// メンバー変数
-	ID3D11Device*				m_pDevice;										// デバイス
-	ID3D11DeviceContext*		m_pContext;										// デバイスコンテキスト
-	IDXGISwapChain*				m_pSwapChain;									// スワップチェイン
+	ID3D11Device*				m_pDevice = nullptr;								// デバイス
+	ID3D11DeviceContext*		m_pContext = nullptr;										// デバイスコンテキスト
+	IDXGISwapChain*				m_pSwapChain = nullptr;									// スワップチェイン
 	ID3D11RasterizerState*		m_pRasterizerState[3];							// ラスタライザ
 	ID3D11BlendState*			m_pBlendState[BlendMode::BLEND_MAX];			// ブレンドステート
 	ID3D11SamplerState*			m_pSamplerState[SamplerState::SAMPLER_MAX];		// サンプラー
 	ID3D11DepthStencilState*	m_pDepthStencilState[DepthState::DEPTH_MAX];	// ステンシル
+	ID3D11RenderTargetView*		m_pRenderTargetView{};
+	ID3D11DepthStencilView*		m_pDepthStencilView{};
 
 	// 自身の変数を持たせておく
 	static DirectXManager m_Instance;

@@ -1,12 +1,16 @@
 #include "Time.h"
 
-Mylib::Time::Time()
+#include "Application.h"
+#include <WinUser.h>
+
+
+Timelib::Time::Time()
 	:deltaTime(0.0f), totalTime(0.0f), frameCount(0), frameRate(0.0f)
 {
 	Reset();
 }
 
-void Mylib::Time::Reset()
+void Timelib::Time::Reset()
 {
 	previousTime = std::chrono::steady_clock::now();
 	totalTime = 0.0f;
@@ -14,7 +18,7 @@ void Mylib::Time::Reset()
 	frameRate = 0.0f;
 }
 
-void Mylib::Time::Update()
+void Timelib::Time::Update()
 {
 	currentTime = std::chrono::steady_clock::now(); // 現在の時間を取得
 	std::chrono::duration<float> elapsed = currentTime - previousTime; // 前のフレームからの経過時間を計算
@@ -27,27 +31,33 @@ void Mylib::Time::Update()
 	if (totalTime >= 1.0f)
 	{
 		CalculateFrameRate(); // フレームレートを計算
+
+		// FPSを表示する
+		char str[32];
+		wsprintfA(str, "FPS=%d", frameCount);
+		SetWindowTextA(Applib::Application::GethWnd(), str);
+
 		totalTime = 0.0f; // 総経過時間をリセット
 		frameCount = 0; // フレーム数をリセット
 	}
 }
 
-float Mylib::Time::GetDeltaTime() const
+float Timelib::Time::GetDeltaTime() const
 {
 	return deltaTime;
 }
 
-float Mylib::Time::GetTotalTime() const
+float Timelib::Time::GetTotalTime() const
 {
 	return totalTime;
 }
 
-float Mylib::Time::GetFrameRate() const
+float Timelib::Time::GetFrameRate() const
 {
 	return frameRate;
 }
 
-void Mylib::Time::CalculateFrameRate()
+void Timelib::Time::CalculateFrameRate()
 {
 	if (totalTime > 0.0f)
 	{

@@ -3,6 +3,8 @@
 //-------------------------------------------
 #include <Windows.h>
 #include "Time.h"
+#include "SceneManager.h"
+#include "Input.h"
 //-------------------------------------------
 
 //-------------------------------------------
@@ -14,14 +16,19 @@
 // 
 //-------------------------------------------
 
-namespace Mylib
+namespace Applib
 {
 	class Application
 	{
 	public:
 		// コンストラクタ・デストラクタ
-		Application(int _width, int _height);
-		~Application(){}
+		Application(HINSTANCE _hInstance, int _width, int _height);
+		~Application() = default;
+
+		// 更新処理
+		void Update(float _time);
+		// 描画処理
+		void Draw();
 		
 
 		// アプリケーション実行(ループ)処理
@@ -38,18 +45,20 @@ namespace Mylib
 		static void SetWidth(int _Width)	{ m_ScreenWidth = _Width; }
 		static void SetHeight(int _Height)	{ m_ScreenHeight = _Height; }
 
-		// 自身の変数
-		//static Application instance;
-
 	private:
-		// 変数宣言
-		static WNDCLASSEX	m_wc;			// ウィンドウクラス
-		static HWND			m_hWnd;			// ウィンドウハンドル
-		static HINSTANCE	m_hInstance;	// インスタンスハンドル
-		static int			m_ScreenWidth;	// 画面横サイズ
-		static int			m_ScreenHeight;	// 画面縦サイズ
-		static Time			m_time;			// タイムクラス変数
 
+#pragma region Variables
+
+		static WNDCLASSEX		m_wc;			// ウィンドウクラス
+		static HWND				m_hWnd;			// ウィンドウハンドル
+		static HINSTANCE		m_hInstance;	// インスタンスハンドル
+		static int				m_ScreenWidth;	// 画面横サイズ
+		static int				m_ScreenHeight;	// 画面縦サイズ
+		Timelib::Time			m_time;			// タイムクラス変数
+		SceneManager			m_sceneManager;	// シーン変数
+		Input					m_input;		// 入力変数
+
+#pragma endregion
 
 	};
 }

@@ -1,6 +1,6 @@
 #include "DirectX.h"
 
-namespace Mylib
+namespace Applib
 {
 }
 DirectXManager DirectXManager::m_Instance;
@@ -165,6 +165,41 @@ HRESULT DirectXManager::InitDirectX(HWND _hWnd, int _height, int _width , bool _
 		if (FAILED(hr)) { return hr; }
 	}
 	SetSamplerState(SAMPLER_LINEAR);
+
+	/* ここから下は変更する可能性あり */
+
+	// レンダーターゲットビュー作成
+	ID3D11Texture2D* renderTarget{};
+	m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&renderTarget);
+	m_pDevice->CreateRenderTargetView(renderTarget, NULL, &m_pRenderTargetView);
+	renderTarget->Release();
+
+
+	// デプスステンシルバッファ作成
+	ID3D11Texture2D* depthStencile{};
+	D3D11_TEXTURE2D_DESC textureDesc{};
+	textureDesc.Width = sd.BufferDesc.Width;
+	textureDesc.Height = sd.BufferDesc.Height;
+	textureDesc.MipLevels = 1;
+	textureDesc.ArraySize = 1;
+	textureDesc.Format = DXGI_FORMAT_D16_UNORM;
+	textureDesc.SampleDesc = sd.SampleDesc;
+	textureDesc.Usage = D3D11_USAGE_DEFAULT;
+	textureDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	textureDesc.CPUAccessFlags = 0;
+	textureDesc.MiscFlags = 0;
+	m_pDevice->CreateTexture2D(&textureDesc, NULL, &depthStencile);
+
+	// デプスステンシルビュー作成
+	D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc{};
+	depthStencilViewDesc.Format = textureDesc.Format;
+	depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	depthStencilViewDesc.Flags = 0;
+	m_pDevice->CreateDepthStencilView(depthStencile, &depthStencilViewDesc, &m_pDepthStencilView);
+	depthStencile->Release();
+
+
+	m_pContext->OMSetRenderTargets(1, &m_pRenderTargetView, m_pDepthStencilView);
 
 	return S_OK;
 }

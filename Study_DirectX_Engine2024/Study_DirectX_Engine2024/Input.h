@@ -20,7 +20,7 @@
 #pragma comment(lib,"dxguid.lib")
 #pragma endregion
 
-namespace Mylib
+namespace Applib
 {
 	// コントローラー接続のボタンタイプ
 	enum class InputControllerType
@@ -268,6 +268,8 @@ namespace Mylib
 
 	public:
 		// 関数宣言
+		Input() = default;
+		~Input() = default;
 
 		// 初期化を行う関数
 		bool Initialize(HWND _hWnd, HINSTANCE _hInstance);
